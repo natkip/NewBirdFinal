@@ -18,9 +18,10 @@ router.post('/signup', async (req, res) => {
         const token = jwt.sign({ id: user._id }, SECRET_KEY);
         res.json({ token });
     } catch (err) {
-        console.error(err);
+        console.error('Signup error:', err);
         res.status(500).json({ message: 'Signup failed' });
     }
+    
 });
 
 /// ✅ Login route
