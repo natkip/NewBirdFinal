@@ -17,7 +17,7 @@ const io = socketio(server, {
 
 const SECRET_KEY = 'birdiesecret';
 
-app.use(cors());
+app.use(cors({ origin: 'https://newbirdfinal-frontend.onrender.com' }));
 app.use(express.json());
 
 mongoose.connect(MONGODB_URI, {
