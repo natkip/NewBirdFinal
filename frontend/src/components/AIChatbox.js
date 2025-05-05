@@ -35,7 +35,7 @@ export default function AIChatbox({ fetchTasks }) {
         description: '',
         priority: response.priority,
         dueDate: response.dueDate,
-        status: 'To Do', // ✅ explicitly set status
+        status: 'To Do', // explicitly set status
       }, {
         headers: { Authorization: localStorage.getItem('token') },
       });
