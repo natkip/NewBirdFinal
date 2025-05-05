@@ -66,3 +66,11 @@ A full stack task manager with AI-powered task suggestions, built with:
 
 4. Start backend
   npm start
+
+5. Install frontend dependencies:
+  cd ../frontend
+  npm install
+
+6. Start the frontend:
+  npm start 
+
