@@ -5,8 +5,8 @@ const TaskSchema = new mongoose.Schema({
     description: String,
     status: {
       type: String,
-      enum: ['To Do', 'In Progress', 'Completed'],
-      default: 'To Do', // ✅ ADD THIS DEFAULT
+      enum: ['To Do', 'In Progress', 'Completed'], //Task status options
+      default: 'To Do', // Default task status
     },
     userId: String,
   });
