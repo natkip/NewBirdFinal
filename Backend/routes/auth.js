@@ -6,12 +6,12 @@ const router = express.Router();
 
 const SECRET_KEY = process.env.JWT_SECRET || 'birdiesecret';
 
-// ✅ Signup route
+// Signup route
 router.post('/signup', async (req, res) => {
     try {
         const { email, password } = req.body;
         const exists = await User.findOne({ email });
-        if (exists) return res.status(400).json({ message: 'User already exists' });
+        if (exists) return res.status(400).json({ message: 'User already exists' }); //Prints if user already exists
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await User.create({ email, password: hashedPassword });
@@ -19,48 +19,48 @@ router.post('/signup', async (req, res) => {
         res.json({ token });
     } catch (err) {
         console.error('Signup error:', err);
-        res.status(500).json({ message: 'Signup failed' });
+        res.status(500).json({ message: 'Signup failed' }); //Prints if signup fails
     }
     
 });
 
-/// ✅ Login route
+/// Login route
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
-        if (!user) return res.status(401).json({ message: 'Invalid credentials' });
+        if (!user) return res.status(401).json({ message: 'Invalid credentials' }); //Prints if credentials are invalid 
 
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
+        if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' }); //Prints if credentials are invalid 
 
         const token = jwt.sign({ id: user._id }, SECRET_KEY);
         res.json({ token });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: 'Login failed' });
+        res.status(500).json({ message: 'Login failed' }); //Prints if login failed
     }
 });
 
-// ✅ Profile route 
+// Profile route 
 router.get('/profile', async (req, res) => {
     const token = req.headers.authorization;
-    if (!token) return res.status(403).json({ error: 'No token provided' });
+    if (!token) return res.status(403).json({ error: 'No token provided' }); //Prints if no token is provided
 
     jwt.verify(token, SECRET_KEY, async (err, decoded) => {
-        if (err) return res.status(403).json({ error: 'Invalid token' });
+        if (err) return res.status(403).json({ error: 'Invalid token' }); //Prints if token is invalid
         const user = await User.findById(decoded.id);
         res.json({ email: user.email, _id: user._id, theme: user.theme, notifications: user.notifications });
     });
 });
 
-// ✅ Preferences route 
+// Preferences route 
 router.put('/preferences', async (req, res) => {
     const token = req.headers.authorization;
-    if (!token) return res.status(403).json({ error: 'No token provided' });
+    if (!token) return res.status(403).json({ error: 'No token provided' }); //Prints if there is no token provided
 
     jwt.verify(token, SECRET_KEY, async (err, decoded) => {
-        if (err) return res.status(403).json({ error: 'Invalid token' });
+        if (err) return res.status(403).json({ error: 'Invalid token' }); //Prints if there is an invalid token
 
         const { theme, notifications } = req.body;
         const user = await User.findByIdAndUpdate(
@@ -72,21 +72,21 @@ router.put('/preferences', async (req, res) => {
     });
 });
 
-// ✅ Change password route
+// Change password route
 router.put('/change-password', async (req, res) => {
     const token = req.headers.authorization;
     const { newPassword } = req.body;
 
-    if (!token) return res.status(403).json({ error: 'No token provided' });
-    if (!newPassword) return res.status(400).json({ error: 'New password required' });
+    if (!token) return res.status(403).json({ error: 'No token provided' }); //Prints if no token is provided
+    if (!newPassword) return res.status(400).json({ error: 'New password required' }); //Prints if new password needed
 
     jwt.verify(token, SECRET_KEY, async (err, decoded) => {
-        if (err) return res.status(403).json({ error: 'Invalid token' });
+        if (err) return res.status(403).json({ error: 'Invalid token' }); //Prints if token is invalid 
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
         await User.findByIdAndUpdate(decoded.id, { password: hashedPassword });
 
-        res.json({ success: true, message: 'Password updated' });
+        res.json({ success: true, message: 'Password updated' }); //Prints if password updated 
     });
 });
 
