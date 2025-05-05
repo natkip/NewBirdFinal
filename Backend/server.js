@@ -25,7 +25,7 @@ mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-  .then(() => console.log('MongoDB connected 🌸'))
+  .then(() => console.log('MongoDB connected 🌸')) //Prints so you know when database is connected
   .catch(err => console.error(err));
 
 app.use('/api/auth', authRoutes);
@@ -40,4 +40,4 @@ io.on('connection', socket => {
 });
 
 const PORT = process.env.PORT || 5001;
-server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server is running on port ${PORT}`)); //Prints the port the server is running on
