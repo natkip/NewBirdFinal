@@ -5,8 +5,8 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // ✅ Clear the saved token
-    navigate('/login');               // ✅ Redirect to the login page
+    localStorage.removeItem('token'); // Clears the saved token
+    navigate('/login');               // Redirects to the login page
   };
 
   return (
